@@ -1,5 +1,5 @@
 import Nav from "@/components/Nav";
-import Hero from "@/components/Hero";
+import HeroScrollAnimation from "@/components/ui/hero-scroll-animation";
 import Projects from "@/components/Projects";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
@@ -8,8 +8,10 @@ export default function Home() {
   return (
     <>
       <Nav />
+      <section id="top">
+        <HeroScrollAnimation />
+      </section>
       <main className="flex-1">
-        <Hero />
         <Projects />
         <About />
       </main>
