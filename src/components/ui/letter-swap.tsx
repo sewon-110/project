@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   AnimationOptions,
   motion,
@@ -17,6 +17,8 @@ interface TextProps {
   staggerFrom?: "first" | "last" | "center" | number
   className?: string
   onClick?: () => void
+  autoPlay?: boolean
+  playDelay?: number
 }
 
 export function LetterSwapForward({
@@ -30,23 +32,25 @@ export function LetterSwapForward({
   staggerFrom = "first",
   className,
   onClick,
+  autoPlay = false,
+  playDelay = 0,
   ...props
 }: TextProps) {
   const [scope, animate] = useAnimate()
   const [blocked, setBlocked] = useState(false)
 
-  const hoverStart = () => {
+  // Function to merge user transition with stagger and delay
+  const mergeTransition = (baseTransition: AnimationOptions) => ({
+    ...baseTransition,
+    delay: stagger(staggerDuration, {
+      from: staggerFrom,
+    }),
+  })
+
+  const playOnce = () => {
     if (blocked) return
 
     setBlocked(true)
-
-    // Function to merge user transition with stagger and delay
-    const mergeTransition = (baseTransition: AnimationOptions) => ({
-      ...baseTransition,
-      delay: stagger(staggerDuration, {
-        from: staggerFrom,
-      }),
-    })
 
     animate(
       ".letter",
@@ -85,10 +89,18 @@ export function LetterSwapForward({
     })
   }
 
+  // 처음 접속 시 자동 재생 (순서대로 하나씩)
+  useEffect(() => {
+    if (!autoPlay) return
+    const t = setTimeout(() => playOnce(), playDelay)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <span
       className={`flex justify-center items-center relative overflow-hidden ${className}`}
-      onMouseEnter={hoverStart}
+      onMouseEnter={playOnce}
       onClick={onClick}
       ref={scope}
       {...props}
