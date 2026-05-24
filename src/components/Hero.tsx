@@ -1,4 +1,5 @@
 import { heroWord, heroPhrases } from "@/data/portfolio";
+import { LetterSwapPingPong } from "@/components/ui/letter-swap";
 
 export default function Hero() {
   return (
@@ -17,7 +18,13 @@ export default function Hero() {
           </span>
           <ul className="flex flex-col justify-center text-left font-hero text-2xl font-extrabold leading-[1.08] tracking-tight sm:text-3xl lg:text-[2.6vw]">
             {heroPhrases.map((phrase) => (
-              <li key={phrase}>{phrase}</li>
+              <li key={phrase}>
+                <LetterSwapPingPong
+                  label={phrase}
+                  staggerFrom="first"
+                  className="w-fit cursor-default"
+                />
+              </li>
             ))}
           </ul>
           <span
