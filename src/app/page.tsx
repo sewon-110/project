@@ -8,12 +8,12 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main className="flex-1">
+      <main className="flex flex-col gap-3 px-3 pb-3 sm:gap-4 sm:px-4 sm:pb-4">
         <Hero />
         <Projects />
         <About />
+        <Contact />
       </main>
-      <Contact />
     </>
   );
 }

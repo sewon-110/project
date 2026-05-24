@@ -4,35 +4,35 @@ export default function Contact() {
   return (
     <footer
       id="contact"
-      className="mx-auto w-full max-w-[1600px] px-6 py-20 sm:py-28"
+      className="rounded-[28px] bg-lime sm:rounded-[44px]"
     >
-      <div className="border-t pt-14">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+      <div className="mx-auto max-w-[1600px] px-6 py-16 sm:px-12 sm:py-24">
+        <p className="font-mono text-xs uppercase tracking-[0.25em] text-ink/70">
           Get in touch
         </p>
         <a
           href={`mailto:${profile.email}`}
-          className="mt-4 inline-block text-3xl font-semibold tracking-tight transition-opacity hover:opacity-70 sm:text-5xl"
+          className="mt-5 inline-block break-all font-display text-[10vw] leading-[0.95] tracking-tight transition-opacity hover:opacity-70 sm:text-[6vw]"
         >
           {profile.email}
         </a>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-6 text-sm text-muted">
-          <ul className="flex gap-6">
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-t-2 border-ink pt-8 text-sm">
+          <ul className="flex flex-wrap gap-3">
             {socials.map((social) => (
               <li key={social.label}>
                 <a
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-foreground"
+                  className="inline-block rounded-full border-2 border-ink px-5 py-2 font-semibold transition-colors hover:bg-ink hover:text-paper"
                 >
                   {social.label}
                 </a>
               </li>
             ))}
           </ul>
-          <p>
+          <p className="font-mono text-xs text-ink/70">
             © {new Date().getFullYear()} {profile.name}
           </p>
         </div>

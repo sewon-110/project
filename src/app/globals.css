@@ -1,33 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafaf9;
-  --foreground: #1c1c1a;
-  --muted: #6b6b66;
-  --line: #e7e5e2;
+  --purple: #ada1f8;
+  --lime: #e6fb67;
+  --ink: #161510;
+  --paper: #fbfaf2;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
+  --color-purple: var(--purple);
+  --color-lime: var(--lime);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0c0c0b;
-    --foreground: #ededeb;
-    --muted: #9a9a93;
-    --line: #26262300;
-    --line: #262623;
-  }
-}
-
-* {
-  border-color: var(--line);
+  --font-display: "Bagel Fat One", var(--font-geist-sans), sans-serif;
 }
 
 html {
@@ -35,13 +22,13 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--purple);
+  color: var(--ink);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--ink);
+  color: var(--lime);
 }
