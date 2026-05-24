@@ -5,7 +5,7 @@ export const profile = {
   name: "이름",
   role: "Visual Designer · Game Marketing",
   // Hero 영역의 큰 문구 (\n 으로 줄바꿈)
-  tagline: "게임의 세계를\n한 장의 이미지로 압축합니다.",
+  tagline: "Creative,\nAlways",
   // About 문단
   about:
     "PUBG, NEW STATE, inZOI 등 글로벌 게임 IP의 마케팅 비주얼을 만들어 온 디자이너입니다. 키비주얼·프로모션·콜라보·이벤트 페이지·인게임 UI까지, 브랜드의 톤을 지키면서 플레이어의 시선을 사로잡는 그래픽을 설계합니다.",
