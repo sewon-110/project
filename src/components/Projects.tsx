@@ -3,7 +3,7 @@ import { works } from "@/data/portfolio";
 
 export default function Projects() {
   return (
-    <section id="work" className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
+    <section id="work" className="mx-auto max-w-[1600px] px-6 py-20 sm:py-28">
       <div className="mb-12 flex items-baseline justify-between border-b pb-6">
         <h2 className="text-2xl font-semibold tracking-tight">Selected Work</h2>
         <span className="font-mono text-xs text-muted">
@@ -12,7 +12,7 @@ export default function Projects() {
       </div>
 
       {/* 마소너리: 다양한 비율의 이미지를 컬럼으로 자연스럽게 배치 */}
-      <div className="columns-1 gap-5 sm:columns-2 lg:columns-3 [&>*]:mb-5">
+      <div className="columns-1 gap-5 sm:columns-2 lg:columns-3 xl:columns-4 [&>*]:mb-5">
         {works.map((work) => (
           <a
             key={work.src}

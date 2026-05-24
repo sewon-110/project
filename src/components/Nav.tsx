@@ -9,7 +9,7 @@ const links = [
 export default function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
+      <nav className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5">
         <a href="#top" className="text-sm font-medium tracking-tight">
           {profile.name}
         </a>

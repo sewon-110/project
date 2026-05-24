@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="mx-auto flex max-w-5xl flex-col justify-center px-6 pt-24 pb-20 sm:pt-36 sm:pb-28"
+      className="mx-auto flex max-w-[1600px] flex-col justify-center px-6 pt-24 pb-20 sm:pt-36 sm:pb-28"
     >
       <p className="mb-6 font-mono text-xs uppercase tracking-[0.2em] text-muted">
         {profile.role} · {profile.location}
