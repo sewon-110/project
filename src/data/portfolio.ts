@@ -13,6 +13,16 @@ export const profile = {
   location: "Seoul, KR",
 };
 
+// Hero — 왼쪽 큰 단어 + 오른쪽 괄호 안 문구 리스트
+export const heroWord = "I'M";
+export const heroPhrases = [
+  "A Visual Designer",
+  "Game Marketing Maker",
+  "Key Visual & Branding",
+  "PUBG · NEW STATE · inZOI",
+  "Based in Seoul, KR",
+];
+
 export const socials: { label: string; href: string }[] = [
   { label: "Behance", href: "https://behance.net/" },
   { label: "Instagram", href: "https://instagram.com/" },
