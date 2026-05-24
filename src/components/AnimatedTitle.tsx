@@ -2,42 +2,63 @@
 
 import { useEffect, useState } from 'react';
 
-// 기본(index 0)은 동글동글한 디스플레이 폰트. 나머지로 한 글자씩 튐.
+// index 0 = 기본 동글동글 폰트. 악센트 글자가 1~4번으로 잠깐 튐.
 const FONTS = [
   'var(--font-display)',
   "'Bebas Neue', sans-serif",
   "'Playfair Display', serif",
   'var(--font-geist-mono), monospace',
-  "'Caveat', cursive",
 ];
 
 export default function AnimatedTitle({
   text,
   className = '',
+  accent = 'vw', // 이 글자들만 애니메이션 (대소문자 무시)
 }: {
   text: string;
   className?: string;
+  accent?: string;
 }) {
   const lines = text.split('\n');
-  const total = lines.reduce((n, l) => n + Array.from(l).length, 0);
+  const flatChars: string[] = [];
+  lines.forEach((l) => Array.from(l).forEach((c) => flatChars.push(c)));
 
-  // 글자별 폰트 인덱스 (전부 0 = 기본 폰트로 시작 → SSR 일치)
-  const [fontIdx, setFontIdx] = useState<number[]>(() => Array(total).fill(0));
+  const accentSet = new Set(accent.toLowerCase().split(''));
+  const accentPositions = flatChars
+    .map((c, i) => (accentSet.has(c.toLowerCase()) ? i : -1))
+    .filter((i) => i >= 0);
+
+  const [fontIdx, setFontIdx] = useState<number[]>(() =>
+    Array(flatChars.length).fill(0),
+  );
 
   useEffect(() => {
-    const id = setInterval(() => {
+    if (accentPositions.length === 0) return;
+    let revert: ReturnType<typeof setTimeout>;
+    const tick = setInterval(() => {
+      const pos =
+        accentPositions[Math.floor(Math.random() * accentPositions.length)];
+      const f = 1 + Math.floor(Math.random() * (FONTS.length - 1)); // 기본 제외
       setFontIdx((prev) => {
-        if (prev.length === 0) return prev;
-        const next = [...prev];
-        const pos = Math.floor(Math.random() * next.length); // 한 글자만
-        let f = Math.floor(Math.random() * FONTS.length);
-        if (f === next[pos]) f = (f + 1) % FONTS.length; // 같은 폰트면 다른 걸로
-        next[pos] = f;
-        return next;
+        const n = [...prev];
+        n[pos] = f;
+        return n;
       });
-    }, 500);
-    return () => clearInterval(id);
-  }, []);
+      // 잠깐 머문 뒤 기본 폰트로 복귀
+      revert = setTimeout(() => {
+        setFontIdx((prev) => {
+          const n = [...prev];
+          n[pos] = 0;
+          return n;
+        });
+      }, 900);
+    }, 1800);
+    return () => {
+      clearInterval(tick);
+      clearTimeout(revert);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text, accent]);
 
   let flat = -1;
   return (
@@ -53,7 +74,7 @@ export default function AnimatedTitle({
                 style={{ fontFamily: FONTS[f] }}
                 className="inline-block"
               >
-                {ch === ' ' ? ' ' : ch}
+                {ch === ' ' ? ' ' : ch}
               </span>
             );
           })}
