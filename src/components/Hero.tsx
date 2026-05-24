@@ -1,20 +1,12 @@
 import { profile } from "@/data/portfolio";
-import AnimatedTitle from "@/components/AnimatedTitle";
 
 export default function Hero() {
   return (
-    <section
-      id="top"
-      className="overflow-hidden bg-lime"
-    >
+    <section id="top" className="overflow-hidden bg-lime">
       <div className="mx-auto flex min-h-[78vh] max-w-[1600px] flex-col items-center justify-center px-6 py-20 text-center sm:px-12 sm:py-28">
-        <p className="mb-8 font-mono text-xs uppercase tracking-[0.25em] text-ink/70">
-          {profile.role} · {profile.location}
-        </p>
-        <AnimatedTitle
-          text={profile.tagline}
-          className="text-[15vw] leading-[0.95] tracking-tight sm:text-[12vw] lg:text-[9vw]"
-        />
+        <h1 className="font-display text-[15vw] leading-[0.95] tracking-tight whitespace-pre-line sm:text-[12vw] lg:text-[9vw]">
+          {profile.tagline}
+        </h1>
         <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
           <a
             href="#work"
