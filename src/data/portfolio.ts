@@ -17,9 +17,10 @@ export const profile = {
 export const heroWord = "I'M";
 export const heroPhrases = [
   "A Visual Designer",
-  "Game Marketing Maker",
-  "Key Visual & Branding",
-  "PUBG · NEW STATE · inZOI",
+  "Game Marketing",
+  "Key Visual",
+  "UI/UX",
+  "Promotion Web",
   "Based in Seoul, KR",
 ];
 
