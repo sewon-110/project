@@ -6,7 +6,7 @@ export default function Projects() {
     <section id="work" className="border-t border-line bg-bg">
       <div className="mx-auto max-w-[1600px] px-6 py-16 sm:px-12 sm:py-24">
         <div className="mb-12 flex flex-wrap items-end justify-between gap-4 border-b border-line pb-6">
-          <h2 className="font-display text-5xl leading-[0.95] tracking-tight sm:text-7xl">
+          <h2 className="font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-7xl">
             Selected
             <br />
             Work

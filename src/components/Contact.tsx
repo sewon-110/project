@@ -9,7 +9,7 @@ export default function Contact() {
         </p>
         <a
           href={`mailto:${profile.email}`}
-          className="mt-5 inline-block break-all font-display text-[10vw] leading-[0.95] tracking-tight transition-opacity hover:opacity-70 sm:text-[6vw]"
+          className="mt-5 inline-block break-all font-display text-[9vw] font-extrabold leading-[0.95] tracking-tight transition-opacity hover:opacity-70 sm:text-[5vw]"
         >
           {profile.email}
         </a>

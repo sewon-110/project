@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section id="top" className="overflow-hidden bg-bg">
       <div className="mx-auto flex min-h-[78vh] max-w-[1600px] flex-col items-center justify-center px-6 py-20 text-center sm:px-12 sm:py-28">
-        <h1 className="font-display text-[15vw] leading-[0.95] tracking-tight whitespace-pre-line sm:text-[12vw] lg:text-[9vw]">
+        <h1 className="font-display text-[14vw] font-extrabold leading-[0.95] tracking-tight whitespace-pre-line sm:text-[11vw] lg:text-[8.5vw]">
           {profile.tagline}
         </h1>
         <div className="mt-12 flex flex-wrap items-center justify-center gap-4">

@@ -12,9 +12,9 @@
   --color-fg: var(--fg);
   --color-surface: var(--surface);
   --color-line: var(--line);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
-  --font-display: "Bagel Fat One", var(--font-geist-sans), sans-serif;
+  --font-display: var(--font-inter), sans-serif;
 }
 
 html {
