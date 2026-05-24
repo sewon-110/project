@@ -21,7 +21,6 @@ export const heroPhrases = [
   "Key Visual",
   "UI/UX",
   "Promotion Web",
-  "Based in Seoul, KR",
 ];
 
 export const socials: { label: string; href: string }[] = [

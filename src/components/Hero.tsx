@@ -8,7 +8,7 @@ export default function Hero() {
           {heroWord}
         </h1>
 
-        <div className="flex items-stretch justify-center gap-2 sm:gap-3">
+        <div className="flex items-center justify-center gap-2 sm:gap-3">
           <span
             aria-hidden="true"
             className="font-hero text-[26vw] font-light leading-[0.78] lg:text-[12vw]"
