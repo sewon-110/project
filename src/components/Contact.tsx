@@ -4,7 +4,7 @@ export default function Contact() {
   return (
     <footer
       id="contact"
-      className="rounded-[28px] bg-lime sm:rounded-[44px]"
+      className="bg-lime"
     >
       <div className="mx-auto max-w-[1600px] px-6 py-16 sm:px-12 sm:py-24">
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-ink/70">

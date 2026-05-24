@@ -8,8 +8,8 @@ const links = [
 
 export default function Nav() {
   return (
-    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
-      <nav className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 rounded-full border-2 border-ink bg-ink px-4 py-2.5 text-paper sm:px-6 sm:py-3">
+    <header className="sticky top-0 z-50 bg-ink text-paper">
+      <nav className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-5 py-3 sm:px-12 sm:py-4">
         <a
           href="#top"
           className="grid h-9 place-content-center rounded-full border-2 border-paper px-4 text-sm font-bold tracking-tight"

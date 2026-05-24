@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="overflow-hidden rounded-[28px] bg-lime sm:rounded-[44px]"
+      className="overflow-hidden bg-lime"
     >
       <div className="mx-auto flex min-h-[78vh] max-w-[1600px] flex-col justify-center px-6 py-20 sm:px-12 sm:py-28">
         <p className="mb-8 font-mono text-xs uppercase tracking-[0.25em] text-ink/70">

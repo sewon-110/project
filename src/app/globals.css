@@ -22,7 +22,7 @@ html {
 }
 
 body {
-  background: var(--purple);
+  background: var(--ink);
   color: var(--ink);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
