@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-// 글자마다 순환할 폰트 모음 (동글동글 → 콘덴스드 → 세리프 → 모노 → 손글씨)
+// 기본(index 0)은 동글동글한 디스플레이 폰트. 나머지로 한 글자씩 튐.
 const FONTS = [
   'var(--font-display)',
   "'Bebas Neue', sans-serif",
@@ -18,27 +18,40 @@ export default function AnimatedTitle({
   text: string;
   className?: string;
 }) {
-  const [tick, setTick] = useState(0);
+  const lines = text.split('\n');
+  const total = lines.reduce((n, l) => n + Array.from(l).length, 0);
+
+  // 글자별 폰트 인덱스 (전부 0 = 기본 폰트로 시작 → SSR 일치)
+  const [fontIdx, setFontIdx] = useState<number[]>(() => Array(total).fill(0));
 
   useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 450);
+    const id = setInterval(() => {
+      setFontIdx((prev) => {
+        if (prev.length === 0) return prev;
+        const next = [...prev];
+        const pos = Math.floor(Math.random() * next.length); // 한 글자만
+        let f = Math.floor(Math.random() * FONTS.length);
+        if (f === next[pos]) f = (f + 1) % FONTS.length; // 같은 폰트면 다른 걸로
+        next[pos] = f;
+        return next;
+      });
+    }, 500);
     return () => clearInterval(id);
   }, []);
 
-  const lines = text.split('\n');
-
+  let flat = -1;
   return (
     <span className={className} aria-label={text}>
       {lines.map((line, li) => (
         <span key={li} className="block whitespace-nowrap" aria-hidden="true">
           {Array.from(line).map((ch, ci) => {
-            const idx = li * 100 + ci; // 줄을 가로질러 스태거
-            const font = FONTS[(tick + idx) % FONTS.length];
+            flat += 1;
+            const f = fontIdx[flat] ?? 0;
             return (
               <span
                 key={ci}
-                style={{ fontFamily: font }}
-                className="inline-block transition-transform duration-300 ease-out"
+                style={{ fontFamily: FONTS[f] }}
+                className="inline-block"
               >
                 {ch === ' ' ? ' ' : ch}
               </span>
