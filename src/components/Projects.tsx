@@ -3,18 +3,15 @@ import { works } from "@/data/portfolio";
 
 export default function Projects() {
   return (
-    <section
-      id="work"
-      className="bg-paper"
-    >
+    <section id="work" className="border-t border-line bg-bg">
       <div className="mx-auto max-w-[1600px] px-6 py-16 sm:px-12 sm:py-24">
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-6">
+        <div className="mb-12 flex flex-wrap items-end justify-between gap-4 border-b border-line pb-6">
           <h2 className="font-display text-5xl leading-[0.95] tracking-tight sm:text-7xl">
             Selected
             <br />
             Work
           </h2>
-          <span className="rounded-full border-2 border-ink px-4 py-1.5 font-mono text-xs">
+          <span className="rounded-full border border-line px-4 py-1.5 font-mono text-xs text-fg/70">
             {String(works.length).padStart(2, "0")} projects
           </span>
         </div>
@@ -27,9 +24,9 @@ export default function Projects() {
               href={work.src}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block break-inside-avoid overflow-hidden rounded-2xl border-2 border-ink bg-paper transition-transform duration-300 hover:-translate-y-1"
+              className="group block break-inside-avoid overflow-hidden rounded-2xl border border-line bg-surface transition-transform duration-300 hover:-translate-y-1"
             >
-              <div className="relative overflow-hidden border-b-2 border-ink">
+              <div className="relative overflow-hidden border-b border-line">
                 {work.tall ? (
                   <div className="relative aspect-[3/4] w-full">
                     <Image
@@ -39,7 +36,7 @@ export default function Projects() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
                     />
-                    <span className="absolute right-3 top-3 rounded-full bg-lime px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-ink">
+                    <span className="absolute right-3 top-3 rounded-full bg-fg px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-bg">
                       Full page ↗
                     </span>
                   </div>
@@ -60,11 +57,11 @@ export default function Projects() {
                   <h3 className="text-sm font-semibold leading-snug tracking-tight">
                     {work.title}
                   </h3>
-                  <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-ink/60">
+                  <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-fg/55">
                     {work.category}
                   </p>
                 </div>
-                <span className="shrink-0 font-mono text-xs text-ink/60">
+                <span className="shrink-0 font-mono text-xs text-fg/55">
                   {work.year}
                 </span>
               </div>

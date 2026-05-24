@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --purple: #ada1f8;
-  --lime: #e6fb67;
-  --ink: #161510;
-  --paper: #fbfaf2;
+  --bg: #08131e;
+  --fg: #dfe3e8;
+  --surface: #0e1f2e;
+  --line: #243240;
 }
 
 @theme inline {
-  --color-purple: var(--purple);
-  --color-lime: var(--lime);
-  --color-ink: var(--ink);
-  --color-paper: var(--paper);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: "Bagel Fat One", var(--font-geist-sans), sans-serif;
@@ -22,13 +22,13 @@ html {
 }
 
 body {
-  background: var(--ink);
-  color: var(--ink);
+  background: var(--bg);
+  color: var(--fg);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--lime);
+  background: var(--fg);
+  color: var(--bg);
 }
