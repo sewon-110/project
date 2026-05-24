@@ -3,8 +3,11 @@ import { LetterSwapForward } from "@/components/ui/letter-swap";
 
 export default function Hero() {
   return (
-    <section id="top" className="overflow-hidden bg-[#dadadc] text-[#0a0a0b]">
-      <div className="mx-auto flex min-h-[84vh] max-w-[1600px] flex-col items-center justify-center gap-6 px-6 py-20 sm:px-12 lg:flex-row lg:justify-center lg:gap-8">
+    <section
+      id="top"
+      className="sticky top-0 z-0 h-screen overflow-hidden bg-[#dadadc] text-[#0a0a0b]"
+    >
+      <div className="mx-auto flex h-full max-w-[1600px] flex-col items-center justify-center gap-6 px-6 py-20 sm:px-12 lg:flex-row lg:justify-center lg:gap-8">
         <h1 className="font-hero text-[24vw] font-black leading-[0.8] tracking-tighter lg:text-[12vw]">
           {heroWord}
         </h1>
