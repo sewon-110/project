@@ -58,6 +58,15 @@ export type Work = {
   client?: string;
 };
 
+// 그룹(여러 작업을 묶은 항목) 상세에서 타이틀 아래 표시할 서브 텍스트.
+// key 는 works 의 group / category 라벨과 일치해야 합니다.
+export const groupInfo: Record<string, string> = {
+  "PUBG Social Marketing":
+    "PUBG 공식 채널에 게재한 소셜 마케팅 비주얼 모음입니다. 시즌·콜라보·업데이트 고지를 일관된 톤으로 디자인했습니다.",
+  "PUBG Key Visual":
+    "PUBG 신규 맵과 시즌의 키비주얼 모음입니다. 세계관과 캐릭터 서사를 한 장면에 담았습니다.",
+};
+
 // 최신·임팩트 순으로 정렬. public/work/ 의 이미지를 가리킵니다.
 export const works: Work[] = [
   { title: "KRAFTON AI WEB", category: "Web", year: "2026", src: "", images: [], width: 1920, height: 1080, description: "KRAFTON의 AI 웹 서비스입니다. 이미지는 준비 중이며, 스크린샷을 주시면 넣어드리겠습니다." },

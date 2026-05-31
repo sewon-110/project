@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { works, type Work } from "@/data/portfolio";
+import { works, groupInfo, type Work } from "@/data/portfolio";
 import DesktopMockup from "@/components/ui/desktop-mockup";
 import ScrollMockup from "@/components/ui/scroll-mockup";
 
@@ -131,9 +131,9 @@ export default function Projects() {
             </p>
           ) : current.type === "work" ? (
             <div>
-              {/* 타이틀이 이미지 위에 */}
-              <div className="mb-3 font-mono text-xs uppercase tracking-[0.15em] text-white/55">
-                {current.work.category}
+              {/* 타이틀 위 — 연도 */}
+              <div className="mb-3 font-mono text-xs tracking-[0.15em] text-white/55">
+                {current.work.year}
               </div>
               <h3 className="mb-3 text-2xl font-semibold tracking-tight sm:text-3xl">
                 {current.work.title}
@@ -175,10 +175,18 @@ export default function Projects() {
             </div>
           ) : (
             <div>
-              <h3 className="mb-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+              {/* 타이틀 위 — 연도 (그룹 내 최신 작업 기준) */}
+              <div className="mb-3 font-mono text-xs tracking-[0.15em] text-white/55">
+                {Math.max(...current.items.map((w) => Number(w.year)))}
+              </div>
+              <h3 className="mb-3 text-2xl font-semibold tracking-tight sm:text-3xl">
                 {current.label}
               </h3>
-              <div className="mb-6 font-mono text-xs uppercase tracking-[0.15em] text-white/55">
+              {/* 타이틀 아래 — 서브 텍스트 */}
+              <p className="mb-3 max-w-[60ch] text-base leading-relaxed text-white/65 sm:text-lg">
+                {groupInfo[current.label] ?? `${current.label} 작업 모음입니다.`}
+              </p>
+              <div className="mb-8 font-mono text-xs uppercase tracking-[0.15em] text-white/40">
                 {current.items.reduce((n, w) => n + (w.images?.length ?? 1), 0)}{" "}
                 works
               </div>
