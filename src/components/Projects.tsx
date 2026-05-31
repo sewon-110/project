@@ -135,9 +135,13 @@ export default function Projects() {
               <div className="mb-3 font-mono text-xs uppercase tracking-[0.15em] text-white/55">
                 {current.work.category}
               </div>
-              <h3 className="mb-6 text-2xl font-semibold tracking-tight sm:text-3xl">
+              <h3 className="mb-3 text-2xl font-semibold tracking-tight sm:text-3xl">
                 {current.work.title}
               </h3>
+              {/* 타이틀 아래 — 이미지들을 설명하는 텍스트 (약 2줄) */}
+              <p className="mb-8 max-w-[60ch] text-base leading-relaxed text-white/65 sm:text-lg">
+                {current.work.description}
+              </p>
               {current.work.mockup === "scroll" ? (
                 <ScrollMockup
                   pc={(current.work.images ?? [current.work.src])[0]}
@@ -168,9 +172,6 @@ export default function Projects() {
                   ))}
                 </div>
               )}
-              <p className="mt-6 text-base leading-relaxed text-white/70 sm:text-lg">
-                {current.work.description}
-              </p>
             </div>
           ) : (
             <div>
