@@ -1,171 +1,252 @@
-'use client'
+"use client";
 
-import Image from "next/image"
-import { useEffect, useMemo, useRef, useState } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
-import { works } from "@/data/portfolio"
+import { useEffect, useState } from "react";
+import { works, type Work } from "@/data/portfolio";
+import DesktopMockup from "@/components/ui/desktop-mockup";
+import ScrollMockup from "@/components/ui/scroll-mockup";
+
+// 1080x1080 / 1080x1350 프로모션 이미지 = 묶어서 작은 썸네일로
+const isPromo = (w: Work) =>
+  w.width === 1080 && (w.height === 1080 || w.height === 1350);
+
+type Item =
+  | { type: "work"; work: Work }
+  | { type: "group"; label: string; items: Work[] };
+
+function buildItems(): Item[] {
+  const features: Work[] = [];
+  const groups = new Map<string, Work[]>();
+  for (const w of works) {
+    // 명시적 group 이 있으면 그 라벨로, 없으면 프로모션(1080)만 카테고리로 묶음
+    const label = w.group ?? (isPromo(w) ? w.category : null);
+    if (label === null) {
+      features.push(w);
+    } else {
+      if (!groups.has(label)) groups.set(label, []);
+      groups.get(label)!.push(w);
+    }
+  }
+  const yearOf = (items: Work[]) => Math.max(...items.map((i) => Number(i.year)));
+  const withYear: { item: Item; year: number }[] = [
+    ...features.map((w) => ({
+      item: { type: "work", work: w } as Item,
+      year: Number(w.year),
+    })),
+    ...[...groups.entries()].map(([label, items]) => ({
+      item: { type: "group", label, items } as Item,
+      year: yearOf(items),
+    })),
+  ];
+  // 최신순(연도 내림차순)
+  withYear.sort((a, b) => b.year - a.year);
+  const result = withYear.map((x) => x.item);
+  // KRAFTON AI WEB 을 1번째로 고정
+  const aiIdx = result.findIndex(
+    (it) => it.type === "work" && it.work.title === "KRAFTON AI WEB",
+  );
+  if (aiIdx > 0) {
+    const [ai] = result.splice(aiIdx, 1);
+    result.unshift(ai);
+  }
+  // PUBG Social Marketing 을 2번째 위치로 고정
+  const smIdx = result.findIndex(
+    (it) => it.type === "group" && it.label === "PUBG Social Marketing",
+  );
+  if (smIdx !== -1 && smIdx !== 1) {
+    const [sm] = result.splice(smIdx, 1);
+    result.splice(1, 0, sm);
+  }
+  return result;
+}
+
+const items = buildItems();
 
 export default function Projects() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const innerRef = useRef<HTMLDivElement>(null)
-  const [dist, setDist] = useState(0)
+  const [sel, setSel] = useState<number | null>(0);
+  const current = sel === null ? null : items[sel];
+  const [modalImg, setModalImg] = useState<string | null>(null);
 
-  // Derive the category list once. Order preserved as encountered in
-  // the works array so the most-shipped categories naturally lead.
-  const categories = useMemo(() => {
-    const map = new Map<string, number>()
-    for (const w of works) map.set(w.category, (map.get(w.category) ?? 0) + 1)
-    return Array.from(map.entries()).map(([name, count]) => ({ name, count }))
-  }, [])
-
-  const [selected, setSelected] = useState<string | null>(null)
-  const filtered = useMemo(
-    () => (selected ? works.filter((w) => w.category === selected) : works),
-    [selected]
-  )
-
-  // 내부 콘텐츠 높이 - 화면 높이 = 스크롤(translate)할 거리. Re-measures
-  // whenever `filtered` changes so the sticky-scroll envelope adjusts to
-  // the new content height when the user toggles a category.
   useEffect(() => {
-    const el = innerRef.current
-    if (!el) return
-    const measure = () =>
-      setDist(Math.max(0, el.scrollHeight - window.innerHeight))
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(el)
-    window.addEventListener("resize", measure)
-    return () => {
-      ro.disconnect()
-      window.removeEventListener("resize", measure)
-    }
-  }, [filtered])
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  })
-  const y = useTransform(scrollYProgress, [0, 1], [0, -dist])
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setModalImg(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="work"
-      style={{ height: `calc(100vh + ${dist}px)` }}
-      className="relative bg-black text-[#e9e9ec]"
-    >
-      {/* 블랙 패널을 top에 고정, 내부 콘텐츠는 스크롤에 맞춰 위로 이동 */}
-      <div className="sticky top-0 h-screen overflow-hidden">
-        <motion.div
-          ref={innerRef}
-          style={{ y }}
-          className="mx-auto max-w-[1600px] px-6 py-16 sm:px-12 sm:py-20"
-        >
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4 border-b border-white/15 pb-6">
-            <h2 className="font-display text-6xl font-extrabold italic leading-[0.9] tracking-tight sm:text-8xl">
+    <>
+      <section id="work" className="min-h-screen bg-black text-[#e9e9ec]">
+      <div className="mx-auto grid w-full max-w-[2560px] gap-10 px-6 py-16 sm:px-12 sm:py-24 lg:grid-cols-[0.8fr_1.3fr] lg:gap-80 lg:h-screen lg:py-0">
+        {/* LEFT — 고정 (스크롤 안 함) */}
+        <div className="lg:flex lg:h-full lg:flex-col lg:justify-center lg:overflow-hidden lg:py-12">
+          <h2 className="mb-8 font-hero text-7xl font-extrabold italic leading-[0.85] tracking-tight sm:text-8xl lg:text-[9vw]">
+            <span className="relative isolate inline-block text-[#0a0a0b]">
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-[-0.05em] bottom-[0.04em] top-[0.12em] -z-10 origin-left bg-[#e6ff33] [animation:paint_0.7s_0.6s_ease-out_both]"
+              />
               Work
-            </h2>
-            <span className="rounded-full border border-white/30 px-4 py-1.5 font-mono text-xs text-white/70">
-              {String(filtered.length).padStart(2, "0")} projects
             </span>
-          </div>
-
-          {/* 2-col split — left is a big-bold clickable category list
-              with hairlines (matches sewon's reference image), right is
-              the masonry of the filtered works. Below lg the categories
-              collapse on top of the grid. */}
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(280px,1fr)_2fr] lg:gap-14">
-            <aside>
-              <ul className="border-t border-white/15">
-                <li className="border-b border-white/15">
+          </h2>
+          <ul className="border-b border-white/15 pl-2 lg:pl-4">
+            {items.map((item, i) => {
+              const active = i === sel;
+              const label = item.type === "work" ? item.work.title : item.label;
+              const client =
+                item.type === "work"
+                  ? (item.work.client ?? "KRAFTON")
+                  : (item.items[0]?.client ?? "KRAFTON");
+              return (
+                <li key={i}>
                   <button
                     type="button"
-                    onClick={() => setSelected(null)}
-                    className={`flex w-full items-baseline justify-between gap-3 py-3 text-left text-3xl font-extrabold tracking-tight transition-opacity sm:text-4xl ${
-                      selected === null ? "opacity-100" : "opacity-55 hover:opacity-100"
+                    onClick={() => setSel(i)}
+                    className={`flex w-full items-center justify-between gap-4 border-t border-white/15 py-3.5 text-left transition-opacity sm:py-4 ${
+                      active ? "opacity-100" : "opacity-40 hover:opacity-75"
                     }`}
                   >
-                    <span>All Work</span>
-                    <span className="font-mono text-xs text-white/55">
-                      ({works.length})
+                    <span className="text-lg font-semibold leading-snug tracking-tight sm:text-2xl">
+                      {label}
+                    </span>
+                    <span className="shrink-0 font-mono text-[10px] tracking-wider text-white/40">
+                      {client}
                     </span>
                   </button>
                 </li>
-                {categories.map((c) => (
-                  <li key={c.name} className="border-b border-white/15">
+              );
+            })}
+          </ul>
+        </div>
+
+        {/* RIGHT — 독립 스크롤 (스크롤바 숨김) */}
+        <div
+          id="work-detail"
+          className="no-scrollbar lg:h-full lg:overflow-y-auto lg:py-12"
+        >
+
+          {current === null ? (
+            <p className="font-mono text-sm uppercase tracking-[0.15em] text-white/35">
+              ← 작업을 선택하세요
+            </p>
+          ) : current.type === "work" ? (
+            <div>
+              {/* 타이틀이 이미지 위에 */}
+              <div className="mb-3 font-mono text-xs uppercase tracking-[0.15em] text-white/55">
+                {current.work.category}
+              </div>
+              <h3 className="mb-6 text-2xl font-semibold tracking-tight sm:text-3xl">
+                {current.work.title}
+              </h3>
+              {current.work.mockup === "scroll" ? (
+                <ScrollMockup
+                  pc={(current.work.images ?? [current.work.src])[0]}
+                  mobile={(current.work.images ?? [])[1]}
+                  alt={current.work.title}
+                />
+              ) : current.work.mockup === "slide" ? (
+                <DesktopMockup
+                  images={current.work.images ?? [current.work.src]}
+                  alt={current.work.title}
+                />
+              ) : (
+                <div className="flex flex-col items-start gap-4">
+                  {(current.work.images ?? [current.work.src]).map((img) => (
                     <button
+                      key={img}
                       type="button"
-                      onClick={() => setSelected(c.name)}
-                      className={`flex w-full items-baseline justify-between gap-3 py-3 text-left text-3xl font-extrabold tracking-tight transition-opacity sm:text-4xl ${
-                        selected === c.name ? "opacity-100" : "opacity-55 hover:opacity-100"
-                      }`}
+                      onClick={() => setModalImg(img)}
+                      className="block w-full"
                     >
-                      <span>{c.name}</span>
-                      <span className="font-mono text-xs text-white/55">
-                        ({c.count})
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </aside>
-
-            {/* 2단 마소너리 — 우측 절반에 맞게 columns 단일/이중만 */}
-            <div className="columns-1 gap-4 sm:columns-2 sm:gap-5 [&>*]:mb-4 sm:[&>*]:mb-5">
-              {filtered.map((work) => (
-                <a
-                  key={work.src}
-                  href={work.src}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] transition-transform duration-300 hover:-translate-y-1"
-                >
-                  <div className="relative overflow-hidden border-b border-white/10">
-                    {work.tall ? (
-                      <div className="relative aspect-[3/4] w-full">
-                        <Image
-                          src={work.src}
-                          alt={work.title}
-                          fill
-                          sizes="(max-width: 1024px) 50vw, 600px"
-                          className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                        />
-                        <span className="absolute right-3 top-3 rounded-full bg-white px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-black">
-                          Full page ↗
-                        </span>
-                      </div>
-                    ) : (
-                      <Image
-                        src={work.src}
-                        alt={work.title}
-                        width={work.width}
-                        height={work.height}
-                        sizes="(max-width: 1024px) 50vw, 600px"
-                        className="h-auto w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={img}
+                        alt={current.work.title}
+                        className="w-full cursor-zoom-in"
                       />
-                    )}
-                  </div>
-
-                  <div className="flex items-start justify-between gap-3 px-4 py-4">
-                    <div>
-                      <h3 className="text-sm font-semibold leading-snug tracking-tight">
-                        {work.title}
-                      </h3>
-                      <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-white/55">
-                        {work.category}
-                      </p>
-                    </div>
-                    <span className="shrink-0 font-mono text-xs text-white/55">
-                      {work.year}
-                    </span>
-                  </div>
-                </a>
-              ))}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <p className="mt-6 text-base leading-relaxed text-white/70 sm:text-lg">
+                {current.work.description}
+              </p>
             </div>
-          </div>
-        </motion.div>
+          ) : (
+            <div>
+              <h3 className="mb-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+                {current.label}
+              </h3>
+              <div className="mb-6 font-mono text-xs uppercase tracking-[0.15em] text-white/55">
+                {current.items.reduce((n, w) => n + (w.images?.length ?? 1), 0)}{" "}
+                works
+              </div>
+              {/* 작은 썸네일 여러 개 (작업별 이미지 모두) */}
+              <div
+                className={`grid gap-4 ${
+                  current.items.every((w) => w.width >= w.height)
+                    ? "grid-cols-1"
+                    : "grid-cols-2 sm:grid-cols-3"
+                }`}
+              >
+                {current.items
+                  .flatMap((w) =>
+                    (w.images ?? [w.src]).map((img) => ({
+                      img,
+                      title: w.title,
+                    })),
+                  )
+                  .map((t) => (
+                    <button
+                      key={t.img}
+                      type="button"
+                      onClick={() => setModalImg(t.img)}
+                      className="group block w-full text-left"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={t.img}
+                        alt={t.title}
+                        className={`w-full cursor-zoom-in object-cover object-top transition-opacity group-hover:opacity-80 ${
+                          current.items.every((w) => w.width >= w.height)
+                            ? "aspect-video"
+                            : "aspect-square"
+                        }`}
+                      />
+                      <p className="mt-1.5 line-clamp-1 text-[11px] text-white/55">
+                        {t.title}
+                      </p>
+                    </button>
+                  ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </section>
-  )
+      </section>
+
+      {modalImg && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-6 backdrop-blur-sm"
+          onClick={() => setModalImg(null)}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={modalImg}
+            alt=""
+            className="max-h-[90vh] max-w-[92vw] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            type="button"
+            onClick={() => setModalImg(null)}
+            aria-label="닫기"
+            className="absolute right-5 top-5 font-mono text-xs uppercase tracking-wider text-white/70 transition-colors hover:text-white"
+          >
+            ✕ Close
+          </button>
+        </div>
+      )}
+    </>
+  );
 }

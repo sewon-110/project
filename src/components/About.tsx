@@ -3,7 +3,7 @@ import { profile } from "@/data/portfolio";
 export default function About() {
   return (
     <section id="about" className="border-t border-line bg-bg">
-      <div className="mx-auto max-w-[1600px] px-6 py-16 sm:px-12 sm:py-24">
+      <div className="mx-auto max-w-[2560px] px-6 py-16 sm:px-12 sm:py-24">
         <div className="grid gap-10 sm:grid-cols-[1fr_2fr]">
           <h2 className="font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-7xl">
             About

@@ -20,6 +20,17 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+/* 형광 하이라이트가 왼쪽→오른쪽으로 칠해지는 효과 */
+@keyframes paint {
+  from {
+    transform: skewX(-7deg) scaleX(0);
+  }
+  to {
+    transform: skewX(-7deg) scaleX(1);
+  }
 }
 
 body {
@@ -32,4 +43,17 @@ body {
 ::selection {
   background: var(--fg);
   color: var(--bg);
+}
+
+/* 스크롤바 숨김 (페이지 전체 + .no-scrollbar 영역) */
+html,
+body,
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

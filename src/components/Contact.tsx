@@ -3,7 +3,7 @@ import { profile, socials } from "@/data/portfolio";
 export default function Contact() {
   return (
     <footer id="contact" className="border-t border-line bg-bg">
-      <div className="mx-auto max-w-[1600px] px-6 py-16 sm:px-12 sm:py-24">
+      <div className="mx-auto max-w-[2560px] px-6 py-16 sm:px-12 sm:py-24">
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-fg/60">
           Get in touch
         </p>
