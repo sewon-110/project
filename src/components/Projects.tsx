@@ -139,7 +139,7 @@ export default function Projects() {
                 {current.work.title}
               </h3>
               {/* 타이틀 아래 — 이미지들을 설명하는 텍스트 (약 2줄) */}
-              <p className="mb-8 max-w-[60ch] text-base leading-relaxed text-white/65 sm:text-lg">
+              <p className="mb-8 text-base leading-relaxed text-white/65 sm:text-lg">
                 {current.work.description}
               </p>
               {current.work.mockup === "scroll" ? (
@@ -183,7 +183,7 @@ export default function Projects() {
                 {current.label}
               </h3>
               {/* 타이틀 아래 — 서브 텍스트 */}
-              <p className="mb-3 max-w-[60ch] text-base leading-relaxed text-white/65 sm:text-lg">
+              <p className="mb-3 text-base leading-relaxed text-white/65 sm:text-lg">
                 {groupInfo[current.label] ?? `${current.label} 작업 모음입니다.`}
               </p>
               <div className="mb-8 font-mono text-xs uppercase tracking-[0.15em] text-white/40">
