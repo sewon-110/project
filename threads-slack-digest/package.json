@@ -1,0 +1,23 @@
+{
+  "name": "threads-slack-digest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Threads 게시물을 요약해 카드 이미지로 만들고 Slack 채널에 자동 게시하는 봇 (월·수·금)",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "preview": "tsx src/preview.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
+    "@slack/web-api": "^7.8.0",
+    "dotenv": "^16.4.7",
+    "playwright": "^1.50.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.2",
+    "typescript": "^5"
+  }
+}
